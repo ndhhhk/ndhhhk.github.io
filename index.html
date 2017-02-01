@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="ndhhhk">
+
+	<title>Pokemon Showdown Replay Parser</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- jQuery Version 1.11.1 -->
+	<script src="js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
+
+	<script src="js/PokemonShowdownReplayParser.js"></script>
+	<!--<script src="log_private.js"></script>-->
+	<script src="js/example.js"></script>
+
+	<!-- Custom CSS -->
+	<style>
+		body {
+			padding-top: 70px;
+			/* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+		}
+		.vcenter {
+			display: inline-block;
+			vertical-align: middle;
+			float: none;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Pokemon Showdown Replay Parser</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="#"></a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+	<!-- Page Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h1>Pokemon Showdown Replay Parser (WIP)</h1>
+			</div>
+			<div class="col-lg-12">
+				<ul class="list-unstyled">
+					<li>Instructions</li>
+					<ul>
+						<li>Select a Pokemon Showdown Replay file (e.g. OU-2017-01-11-Red-Blue.html or OU-2017-01-11-Red-Blue.log).</i>
+							<li>Click process.</li>
+						</ul>
+					</li>
+					<li>Alternatively</li>		
+					<ul>
+						<li>Copy paste the contents of a Pokemon Showdown log (e.g. OU-2017-01-11-Red-Blue.log) into the text field.</li>
+						<li>Click process.</li>
+					</ul>
+					<a href="https://www.reddit.com/message/compose/?to=ndhhhk">PM me on Reddit /u/ndhhhk for any bugs, issues or requests.</a><br>
+					I've only really tested it using OU and Random Battle replays.<br>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-5 text-center vcenter" >  
+					<label for="log">Log:</label>
+					<table>
+						<tr>
+							<td>Pokemon Showdown File:</td>
+							<td> <input type="file" id="file"></td>
+						</tr>
+					</table>
+					<textarea class="form-control" rows="25" id="log"></textarea>
+				</div>    
+
+				<div class="col-xs-12 col-md-1 text-center vcenter"> 
+					<button id="processBtn">Process</button>
+				</div>
+
+				<div class="col-xs-12 col-md-5 text-center vcenter" >  
+					<label for="output">Output:</label>
+					<textarea class="form-control" rows="25" id="output"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<ul class="list-unstyled">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.row -->
+
+</div>
+<!-- /.container -->
+</body>  
+<script>
+	// TODO: 
+	// Add allowed files to file input
+	// If .html file (scrape the right section)
+	// If .log dont do anything
+	// Add credits
+
+	$( document ).ready(function() {
+		$("#log").val(logText);
+		var parser = new PokemonShowdownReplayParser();
+		var output = parser.run($("#log").val());
+		$("#output").html(output);
+	});
+
+
+	$("#file").change(function() {
+		var file = $("#file")[0].files[0];
+		var reader = new FileReader();
+
+		// Read file into memory as UTF-16      
+		reader.readAsText(file, "UTF-8");
+
+		// Handle progress, success, and errors
+		reader.onload = loaded;
+		reader.onerror = errorHandler;
+	});
+
+	function loaded(evt) {
+		// Obtain the read file data    
+		var data = evt.target.result;
+		$("#log").val(data);
+	}
+
+	function errorHandler(evt) {
+		$("#log").val("An error occured. Please contact ndhhhk");
+	}
+
+
+	$( "#processBtn" ).click(function() {
+		console.log("ASD");
+		var parser = new PokemonShowdownReplayParser();
+		console.log($("#log").val());
+		var output = parser.run($("#log").val());
+		console.log(output);
+		$("#output").html(output);
+	});
+
+</script>
+
+</html>
